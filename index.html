@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LJK Digital - ASAS Informatika VIII</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none; /* Mencegah copy-paste soal */
+            -webkit-user-select: none;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        /* Animasi Halus */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes pulseDanger {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        .animate-card { animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-danger { animation: pulseDanger 0.8s infinite; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+
+        /* Radio & Checkbox Kustom */
+        .option-label {
+            transition: all 0.2s ease;
+        }
+        .option-label:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="text-slate-100">
+
+    <!-- ==================== 1. HALAMAN LOGIN & IDENTITAS ==================== -->
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-slate-900/90 backdrop-blur-xl border border-indigo-500/30 rounded-3xl p-8 max-w-lg w-full shadow-2xl animate-card">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 mb-4 shadow-lg shadow-indigo-500/20">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h1 class="text-2xl font-extrabold bg-gradient-to-r from-indigo-400 to-cyan-300 bg-clip-text text-transparent">UPT SMP NEGERI 2 PARENGAN</h1>
+                <p class="text-sm text-slate-400 mt-1">ASAS Informatika Kelas VIII • TP. 2026/2027</p>
+            </div>
+
+            <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 mb-6 text-xs text-amber-200 space-y-1.5">
+                <p class="font-bold text-amber-400 flex items-center gap-1.5">
+                    <span>⚠️</span> PERATURAN KETAT UJIAN (ANTI-CURANG):
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-slate-300">
+                    <li>Waktu pengerjaan <strong>90 Menit</strong>.</li>
+                    <li>Aplikasi akan masuk mode <strong>Layar Penuh (Fullscreen)</strong>.</li>
+                    <li><strong>DILARANG</strong> keluar aplikasi, membuka tab lain, split-screen, atau menekan tombol Home.</li>
+                    <li>Toleransi keluar aplikasi maksimal <strong>3 KALI</strong>. Pada kali ke-3, LJK <strong>OTOMATIS TERKIRIM & SELESAI</strong>.</li>
+                </ul>
+            </div>
+
+            <form id="start-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Nama Lengkap Siswa</label>
+                    <input type="text" id="input-nama" required placeholder="Contoh: Ahmad Budi Santoso" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Kelas</label>
+                        <select id="input-kelas" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 focus:border-indigo-500 outline-none transition text-white">
+                            <option value="">-- Pilih --</option>
+                            <option value="VIII-A">VIII - A</option>
+                            <option value="VIII-B">VIII - B</option>
+                            <option value="VIII-C">VIII - C</option>
+                            <option value="VIII-D">VIII - D</option>
+                            <option value="VIII-E">VIII - E</option>
+                            <option value="VIII-F">VIII - F</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Nomor Absen</label>
+                        <input type="number" id="input-absen" min="1" max="45" required placeholder="01 - 40" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 focus:border-indigo-500 outline-none transition text-white">
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3.5 mt-2 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 font-bold text-white shadow-lg shadow-indigo-600/30 transition transform active:scale-95 cursor-pointer">
+                    MULAI MENGERJAKAN 🚀
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== 2. HALAMAN UJIAN UTAMA ==================== -->
+    <div id="exam-screen" class="hidden min-h-screen flex flex-col">
+        <!-- Header Sticky -->
+        <header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 shadow-lg">
+            <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-lg shadow-md">
+                        VIII
+                    </div>
+                    <div>
+                        <h2 id="display-nama" class="font-bold text-sm md:text-base text-white leading-tight">Nama Siswa</h2>
+                        <p id="display-info" class="text-xs text-slate-400">Kelas • Absen</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <!-- Indikator Pelanggaran -->
+                    <div id="violation-badge" class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-semibold flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400" id="violation-dot"></span>
+                        <span>Peringatan: <strong id="violation-count" class="text-white">0</strong>/3</span>
+                    </div>
+
+                    <!-- Timer 90 Menit -->
+                    <div class="px-4 py-1.5 rounded-xl bg-indigo-950 border border-indigo-500/40 text-indigo-300 font-mono font-bold text-base md:text-lg flex items-center gap-2 shadow-inner">
+                        <span>⏱️</span>
+                        <span id="timer-display">90:00</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Progress Bar -->
+            <div class="max-w-5xl mx-auto mt-3">
+                <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                    <span>Progres Pengerjaan</span>
+                    <span id="progress-text">0 / 50 Terjawab</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Konten Soal & Navigasi -->
+        <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Area Soal (Kiri - 2 Kolom) -->
+            <div class="lg:col-span-2 space-y-4">
+                <div id="question-container" class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-xl animate-card min-h-[380px] flex flex-col justify-between">
+                    <!-- Diisi oleh JavaScript -->
+                </div>
+
+                <!-- Tombol Navigasi Bawah -->
+                <div class="flex items-center justify-between gap-4">
+                    <button id="btn-prev" onclick="prevQuestion()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm transition disabled:opacity-40 cursor-pointer">
+                        ← Sebelumnya
+                    </button>
+                    <button id="btn-next" onclick="nextQuestion()" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/20 transition cursor-pointer">
+                        Selanjutnya →
+                    </button>
+                    <button id="btn-submit" onclick="confirmSubmit()" class="hidden px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition cursor-pointer">
+                        KIRIM JAWABAN ✅
+                    </button>
+                </div>
+            </div>
+
+            <!-- Peta Nomor LJK (Kanan - 1 Kolom) -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl h-fit">
+                <h3 class="font-bold text-sm text-slate-300 mb-3 flex items-center justify-between">
+                    <span>Navigasi Nomor Soal</span>
+                    <span class="text-xs font-normal text-slate-400">1 - 50</span>
+                </h3>
+                <div id="question-grid" class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-5 gap-2 max-h-[360px] overflow-y-auto pr-1">
+                    <!-- Tombol nomor 1-50 diisi JS -->
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span> Sudah</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-indigo-600 inline-block"></span> Aktif</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-800 border border-slate-700 inline-block"></span> Belum</span>
+                </div>
+                <button onclick="confirmSubmit()" class="w-full mt-5 py-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/50 text-emerald-300 hover:text-white font-bold text-xs tracking-wider uppercase transition cursor-pointer">
+                    Selesai & Kumpulkan LJK
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- ==================== 3. MODAL PERINGATAN ANTI-CURANG ==================== -->
+    <div id="warning-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-red-950 border-2 border-red-500 rounded-3xl p-7 max-w-md w-full text-center shadow-2xl animate-danger">
+            <div class="w-16 h-16 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center mx-auto mb-4 text-3xl">
+                🚨
+            </div>
+            <h3 class="text-xl font-extrabold text-white mb-2">PERINGATAN PELANGGARAN!</h3>
+            <p class="text-sm text-red-200 mb-4">
+                Anda terdeteksi keluar dari aplikasi LJK atau membuka jendela lain!
+            </p>
+            <div class="bg-red-900/60 rounded-xl p-3 mb-6 border border-red-500/40">
+                <p class="text-xs text-red-200">Status Pelanggaran Anda:</p>
+                <p id="modal-violation-text" class="text-2xl font-black text-white mt-1">1 dari 3</p>
+                <p class="text-[11px] text-red-300 mt-1">Jika mencapai 3x, jawaban otomatis terkirim!</p>
+            </div>
+            <button onclick="resumeExam()" class="w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold shadow-lg transition cursor-pointer">
+                SAYA MENGERTI & KEMBALI UJIAN
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== 4. HALAMAN SELESAI ==================== -->
+    <div id="finish-screen" class="hidden min-h-screen flex items-center justify-center p-4">
+        <div class="bg-slate-900/95 border border-emerald-500/30 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl animate-card">
+            <div class="w-20 h-20 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-5 text-4xl shadow-lg shadow-emerald-500/20">
+                🎉
+            </div>
+            <h2 class="text-2xl font-extrabold text-white mb-2">Ujian Telah Selesai!</h2>
+            <p id="finish-reason" class="text-sm text-slate-400 mb-6">Jawaban Anda telah berhasil direkam dan dikirim ke Spreadsheet Guru.</p>
+            
+            <div class="bg-slate-800/80 rounded-2xl p-4 text-left space-y-2 text-sm mb-6 border border-slate-700">
+                <div class="flex justify-between"><span class="text-slate-400">Nama:</span> <strong id="res-nama" class="text-white">-</strong></div>
+                <div class="flex justify-between"><span class="text-slate-400">Kelas / Absen:</span> <strong id="res-kelas" class="text-white">-</strong></div>
+                <div class="flex justify-between"><span class="text-slate-400">Skor Otomatis (No 1-45):</span> <strong id="res-skor" class="text-emerald-400 text-base">-</strong></div>
+                <div class="flex justify-between"><span class="text-slate-400">Catatan Pelanggaran:</span> <strong id="res-pelanggaran" class="text-amber-400">-</strong></div>
+                <div class="flex justify-between"><span class="text-slate-400">Status Spreadsheet:</span> <strong id="res-sync" class="text-cyan-400">Menyimpan...</strong></div>
+            </div>
+            <p class="text-xs text-slate-500">Silakan tunjukkan layar ini kepada pengawas ruang ujian.</p>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI BAWAH INI:
+        const GOOGLE_SCRIPT_URL = "URL_GOOGLE_APPS_SCRIPT_ANDA";
+        // =========================================================================
+
+        // DATABASE 50 SOAL ASAS INFORMATIKA KELAS 8 (SESUAI DOKUMEN PDF)
+        const questions = [
+            // A. PILIHAN GANDA (1 - 35)
+            { no: 1, type: "PG", materi: "Perangkat Jaringan Internet", q: "Perangkat yang digunakan untuk menghubungkan beberapa jaringan komputer adalah ....", opts: ["A. Keyboard", "B. Router", "C. Monitor", "D. Printer"], ans: "B" },
+            { no: 2, type: "PG", materi: "Perangkat Jaringan Internet", q: "Kepanjangan dari LAN adalah ....", opts: ["A. Local Area Network", "B. Large Access Network", "C. Local Access Number", "D. Long Area Network"], ans: "A" },
+            { no: 3, type: "PG", materi: "Perangkat Jaringan Internet", q: "Perangkat yang berfungsi mengubah sinyal digital dan analog dalam koneksi internet adalah ....", opts: ["A. Mouse", "B. Modem", "C. Speaker", "D. Scanner"], ans: "B" },
+            { no: 4, type: "PG", materi: "Perangkat Jaringan Internet", q: "Jaringan internet tanpa menggunakan kabel disebut ....", opts: ["A. LAN", "B. Kabel LAN", "C. Wi-Fi", "D. USB"], ans: "C" },
+            { no: 5, type: "PG", materi: "Perangkat Jaringan Internet", q: "Perangkat yang digunakan untuk menghubungkan beberapa komputer dalam satu jaringan lokal adalah ....", opts: ["A. Switch", "B. Printer", "C. Webcam", "D. Proyektor"], ans: "A" },
+            { no: 6, type: "PG", materi: "Perangkat Jaringan Internet", q: "Contoh perangkat yang dapat digunakan untuk mengakses internet adalah ....", opts: ["A. Komputer", "B. Meja", "C. Kursi", "D. Lemari"], ans: "A" },
+            { no: 7, type: "PG", materi: "Perangkat Jaringan Internet", q: "Jaringan komputer yang mencakup wilayah kecil seperti sekolah disebut ....", opts: ["A. WAN", "B. LAN", "C. MAN", "D. Internet global"], ans: "B" },
+            { no: 8, type: "PG", materi: "Perangkat Jaringan Internet", q: "Fungsi utama router adalah ....", opts: ["A. Mencetak dokumen", "B. Mengatur lalu lintas data jaringan", "C. Mengetik dokumen", "D. Memutar musik"], ans: "B" },
+            { no: 9, type: "PG", materi: "Perangkat Jaringan Internet", q: "Kabel yang sering digunakan untuk menghubungkan komputer ke jaringan LAN adalah ....", opts: ["A. Kabel UTP", "B. Kabel listrik", "C. Kabel HDMI", "D. Kabel charger"], ans: "A" },
+            { no: 10, type: "PG", materi: "Perangkat Jaringan Internet", q: "Internet dapat digunakan untuk kegiatan berikut, kecuali ....", opts: ["A. Belajar daring", "B. Mengirim email", "C. Mencari informasi", "D. Merusak perangkat orang lain"], ans: "D" },
+            
+            { no: 11, type: "PG", materi: "Scratch", q: "Scratch merupakan aplikasi yang digunakan untuk ....", opts: ["A. Mengolah angka saja", "B. Membuat program sederhana", "C. Mengedit dokumen", "D. Menggambar bangunan"], ans: "B" },
+            { no: 12, type: "PG", materi: "Scratch", q: "Tokoh atau objek yang digunakan dalam Scratch disebut ....", opts: ["A. Sprite", "B. Router", "C. Folder", "D. File"], ans: "A" },
+            { no: 13, type: "PG", materi: "Scratch", q: "Tempat untuk menampilkan gerakan sprite disebut ....", opts: ["A. Stage", "B. Keyboard", "C. Desktop", "D. Toolbar"], ans: "A" },
+            { no: 14, type: "PG", materi: "Scratch", q: "Blok perintah dalam Scratch digunakan untuk ....", opts: ["A. Mengatur jalannya program", "B. Menghidupkan komputer", "C. Mencetak gambar", "D. Menghapus aplikasi"], ans: "A" },
+            { no: 15, type: "PG", materi: "Scratch", q: "Blok perintah untuk menggerakkan sprite 10 langkah adalah ....", opts: ["A. Move 10 steps", "B. Say Hello", "C. Play Sound", "D. Stop All"], ans: "A" },
+            { no: 16, type: "PG", materi: "Scratch", q: "Perintah untuk memulai program Scratch biasanya menggunakan blok ....", opts: ["A. When green flag clicked", "B. Stop all", "C. Wait 1 seconds", "D. Delete"], ans: "A" },
+            { no: 17, type: "PG", materi: "Scratch", q: "Jika ingin membuat sprite mengatakan 'Halo', kita menggunakan blok ....", opts: ["A. Move", "B. Say", "C. Turn", "D. Repeat"], ans: "B" },
+            { no: 18, type: "PG", materi: "Scratch", q: "Blok Repeat pada Scratch berfungsi untuk ....", opts: ["A. Mengulang perintah", "B. Menghapus perintah", "C. Menghentikan komputer", "D. Mengganti nama file"], ans: "A" },
+            { no: 19, type: "PG", materi: "Scratch", q: "Dalam Scratch, perintah untuk memainkan suara terdapat pada kategori ....", opts: ["A. Motion", "B. Sound", "C. Events", "D. Control"], ans: "B" },
+            { no: 20, type: "PG", materi: "Scratch", q: "Urutan langkah-langkah untuk menyelesaikan suatu masalah disebut ....", opts: ["A. Algoritma", "B. Internet", "C. Jaringan", "D. Perangkat keras"], ans: "A" },
+
+            { no: 21, type: "PG", materi: "Literasi Digital & Bullying Digital", q: "Literasi digital adalah kemampuan untuk ....", opts: ["A. Menggunakan teknologi digital secara bijak", "B. Bermain game sepanjang hari", "C. Menyebarkan berita tanpa membaca", "D. Menggunakan internet tanpa aturan"], ans: "A" },
+            { no: 22, type: "PG", materi: "Literasi Digital & Bullying Digital", q: "Contoh perilaku yang baik ketika menggunakan media sosial adalah ....", opts: ["A. Menghina teman", "B. Menyebarkan berita bohong", "C. Menggunakan bahasa yang sopan", "D. Membagikan rahasia orang lain"], ans: "C" },
+            { no: 23, type: "PG", materi: "Literasi Digital & Bullying Digital", q: "Bullying yang dilakukan melalui media digital disebut ....", opts: ["A. Cyberbullying", "B. Downloading", "C. Browsing", "D. Coding"], ans: "A" },
+            { no: 24, type: "PG", materi: "Literasi Digital & Bullying Digital", q: "Contoh cyberbullying adalah ....", opts: ["A. Mengirim ucapan selamat", "B. Menghina teman melalui grup WhatsApp", "C. Membantu teman belajar", "D. Berbagi materi pelajaran"], ans: "B" },
+            { no: 25, type: "PG", materi: "Literasi Digital & Bullying Digital", q: "Jika menerima pesan berisi hinaan di media sosial, sebaiknya kita ....", opts: ["A. Membalas dengan hinaan", "B. Menyebarkannya", "C. Menyimpan bukti dan melapor kepada orang dewasa tepercaya", "D. Ikut menghina orang lain"], ans: "C" },
+            { no: 26, type: "PG", materi: "Literasi Digital & Bullying Digital", q: "Informasi pribadi yang tidak boleh sembarangan dibagikan di internet adalah ....", opts: ["A. Hobi", "B. Nomor PIN dan kata sandi", "C. Warna kesukaan", "D. Makanan favorit"], ans: "B" },
+            { no: 27, type: "PG", materi: "Literasi Digital & Bullying Digital", q: "Kata sandi yang baik seharusnya ....", opts: ["A. Mudah ditebak", "B. Menggunakan tanggal lahir saja", "C. Kuat dan tidak mudah diketahui orang lain", "D. Sama dengan nama sendiri"], ans: "C" },
+            { no: 28, type: "PG", materi: "Literasi Digital & Bullying Digital", q: "Sebelum membagikan berita di media sosial, kita harus ....", opts: ["A. Langsung menyebarkannya", "B. Memeriksa kebenaran informasi", "C. Mengubah isi berita", "D. Menghapus nama penulis"], ans: "B" },
+            { no: 29, type: "PG", materi: "Literasi Digital & Bullying Digital", q: "Jejak digital adalah ....", opts: ["A. Bekas kaki di tanah", "B. Rekaman aktivitas seseorang di dunia digital", "C. Kerusakan komputer", "D. Alat untuk mengakses internet"], ans: "B" },
+            { no: 30, type: "PG", materi: "Literasi Digital & Bullying Digital", q: "Sikap yang tepat saat melihat teman menjadi korban cyberbullying adalah ....", opts: ["A. Ikut menertawakan", "B. Membiarkannya", "C. Mendukung korban dan melaporkan kejadian", "D. Menyebarkan tangkapan layar untuk mengejek"], ans: "C" },
+
+            { no: 31, type: "PG", materi: "Berpikir Komputasional", q: "Berpikir komputasional adalah cara berpikir untuk ....", opts: ["A. Menyelesaikan masalah secara terstruktur", "B. Menghafalkan semua jawaban", "C. Bermain komputer saja", "D. Menghindari masalah"], ans: "A" },
+            { no: 32, type: "PG", materi: "Berpikir Komputasional", q: "Memecah masalah besar menjadi bagian-bagian kecil disebut ....", opts: ["A. Abstraksi", "B. Dekomposisi", "C. Enkripsi", "D. Simulasi"], ans: "B" },
+            { no: 33, type: "PG", materi: "Berpikir Komputasional", q: "Menemukan kesamaan dari beberapa masalah disebut ....", opts: ["A. Pengenalan pola", "B. Penghapusan data", "C. Pengiriman data", "D. Penyimpanan data"], ans: "A" },
+            { no: 34, type: "PG", materi: "Berpikir Komputasional", q: "Mengambil informasi penting dan mengabaikan informasi yang tidak diperlukan disebut ....", opts: ["A. Dekomposisi", "B. Abstraksi", "C. Browsing", "D. Download"], ans: "B" },
+            { no: 35, type: "PG", materi: "Berpikir Komputasional", q: "Langkah-langkah yang disusun secara berurutan untuk menyelesaikan masalah disebut ....", opts: ["A. Algoritma", "B. Hardware", "C. Software", "D. Internet"], ans: "A" },
+
+            // B. BENAR ATAU SALAH (36 - 40)
+            { no: 36, type: "BS", materi: "Benar atau Salah", q: "Router merupakan perangkat yang dapat mengatur lalu lintas data dalam jaringan.", opts: ["B (Benar)", "S (Salah)"], ans: "B" },
+            { no: 37, type: "BS", materi: "Benar atau Salah", q: "Scratch merupakan aplikasi untuk membuat program dengan blok perintah.", opts: ["B (Benar)", "S (Salah)"], ans: "B" },
+            { no: 38, type: "BS", materi: "Benar atau Salah", q: "Cyberbullying adalah tindakan mengejek atau menyakiti orang lain melalui media digital.", opts: ["B (Benar)", "S (Salah)"], ans: "B" },
+            { no: 39, type: "BS", materi: "Benar atau Salah", q: "Kita boleh membagikan kata sandi kepada semua teman di media sosial.", opts: ["B (Benar)", "S (Salah)"], ans: "S" },
+            { no: 40, type: "BS", materi: "Benar atau Salah", q: "Dekomposisi adalah kegiatan memecah masalah besar menjadi bagian-bagian kecil.", opts: ["B (Benar)", "S (Salah)"], ans: "B" },
+
+            // C. PILIHAN LEBIH DARI SATU JAWABAN (41 - 45)
+            { no: 41, type: "PGK", materi: "Pilihan Ganda Kompleks (Pilih > 1)", q: "Berikut ini yang termasuk perangkat jaringan internet adalah ....", opts: ["A. Router", "B. Modem", "C. Switch", "D. Penggaris"], ans: ["A", "B", "C"] },
+            { no: 42, type: "PGK", materi: "Pilihan Ganda Kompleks (Pilih > 1)", q: "Berikut ini yang termasuk fitur atau bagian dalam Scratch adalah ....", opts: ["A. Sprite", "B. Stage", "C. Blok perintah", "D. Kompor"], ans: ["A", "B", "C"] },
+            { no: 43, type: "PGK", materi: "Pilihan Ganda Kompleks (Pilih > 1)", q: "Contoh perilaku positif dalam menggunakan internet adalah ....", opts: ["A. Menggunakan bahasa sopan", "B. Memeriksa kebenaran berita", "C. Menghargai pendapat orang lain", "D. Menghina teman di media sosial"], ans: ["A", "B", "C"] },
+            { no: 44, type: "PGK", materi: "Pilihan Ganda Kompleks (Pilih > 1)", q: "Berikut ini yang termasuk contoh cyberbullying adalah ....", opts: ["A. Mengirim komentar menghina", "B. Menyebarkan foto teman untuk mempermalukannya", "C. Mengancam teman melalui pesan digital", "D. Mengirim ucapan selamat ulang tahun"], ans: ["A", "B", "C"] },
+            { no: 45, type: "PGK", materi: "Pilihan Ganda Kompleks (Pilih > 1)", q: "Berikut ini yang termasuk konsep berpikir komputasional adalah ....", opts: ["A. Dekomposisi", "B. Pengenalan pola", "C. Abstraksi", "D. Algoritma"], ans: ["A", "B", "C", "D"] },
+
+            // D. ESAI (46 - 50)
+            { no: 46, type: "ESAI", materi: "Uraian / Esai", q: "Jelaskan apa yang dimaksud dengan jaringan internet!" },
+            { no: 47, type: "ESAI", materi: "Uraian / Esai", q: "Sebutkan tiga perangkat yang digunakan untuk membangun jaringan internet!" },
+            { no: 48, type: "ESAI", materi: "Uraian / Esai", q: "Apa yang dimaksud dengan Scratch dan apa kegunaannya?" },
+            { no: 49, type: "ESAI", materi: "Uraian / Esai", q: "Jelaskan apa yang dimaksud dengan cyberbullying dan berikan satu contohnya!" },
+            { no: 50, type: "ESAI", materi: "Uraian / Esai", q: "Sebutkan empat konsep utama berpikir komputasional!" }
+        ];
+
+        // STATE APLIKASI
+        let currentIdx = 0;
+        let userAnswers = {};
+        let studentData = { nama: "", kelas: "", absen: "" };
+        let timeLeft = 90 * 60; // 90 menit dalam detik
+        let timerInterval = null;
+        let violationCount = 0;
+        let isExamActive = false;
+        let isSubmitting = false;
+
+        // 1. MULAI UJIAN & AKTIFKAN FULLSCREEN
+        document.getElementById("start-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            studentData.nama = document.getElementById("input-nama").value.trim();
+            studentData.kelas = document.getElementById("input-kelas").value;
+            studentData.absen = document.getElementById("input-absen").value;
+
+            document.getElementById("display-nama").innerText = studentData.nama;
+            document.getElementById("display-info").innerText = `Kelas ${studentData.kelas} • No. Absen ${studentData.absen}`;
+
+            // Masuk mode fullscreen
+            requestFullScreen();
+
+            document.getElementById("login-screen").classList.add("hidden");
+            document.getElementById("exam-screen").classList.remove("hidden");
+
+            isExamActive = true;
+            renderGrid();
+            renderQuestion(0);
+            startTimer();
+        });
+
+        function requestFullScreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) { elem.requestFullscreen().catch(() => {}); }
+            else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
+            else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
+        }
+
+        // 2. SISTEM ANTI-CURANG (DETEKSI KELUAR APLIKASI / PINDAH TAB / SPLIT SCREEN)
+        function triggerViolation() {
+            if (!isExamActive || isSubmitting) return;
+
+            violationCount++;
+            document.getElementById("violation-count").innerText = violationCount;
+            
+            // Ubah warna badge peringatan
+            const dot = document.getElementById("violation-dot");
+            const badge = document.getElementById("violation-badge");
+            dot.classList.replace("bg-emerald-400", "bg-red-500");
+            badge.classList.add("border-red-500", "bg-red-950/60");
+
+            if (violationCount >= 3) {
+                // OTOMATIS KIRIM JAWABAN PADA PELANGGARAN KE-3
+                document.getElementById("warning-modal").classList.add("hidden");
+                submitExam("Otomatis Terkirim (Melebihi Batas 3x Keluar Aplikasi)");
+            } else {
+                document.getElementById("modal-violation-text").innerText = `${violationCount} dari 3`;
+                document.getElementById("warning-modal").classList.remove("hidden");
+            }
+        }
+
+        // Deteksi perpindahan tab / minimize / buka aplikasi lain di HP
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden && isExamActive) {
+                triggerViolation();
+            }
+        });
+
+        // Deteksi kehilangan fokus jendela (misal split screen atau klik aplikasi lain)
+        window.addEventListener("blur", () => {
+            if (isExamActive) {
+                triggerViolation();
+            }
+        });
+
+        // Cegah klik kanan & tombol pintas tertentu
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", e => {
+            if ((e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 't' || e.key === 'n')) || e.key === 'F12') {
+                e.preventDefault();
+            }
+        });
+
+        function resumeExam() {
+            document.getElementById("warning-modal").classList.add("hidden");
+            requestFullScreen();
+        }
+
+        // 3. TIMER 90 MENIT
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                let mins = Math.floor(timeLeft / 60);
+                let secs = timeLeft % 60;
+                document.getElementById("timer-display").innerText = 
+                    `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+                if (timeLeft <= 300) { // 5 menit terakhir merah berkedip
+                    document.getElementById("timer-display").classList.add("text-red-400", "animate-pulse");
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitExam("Waktu Habis (90 Menit)");
+                }
+            }, 1000);
+        }
+
+        // 4. RENDER SOAL & LEMBAR JAWABAN
+        function renderQuestion(idx) {
+            currentIdx = idx;
+            const item = questions[idx];
+            const container = document.getElementById("question-container");
+            
+            // Reset animasi kartu
+            container.classList.remove("animate-card");
+            void container.offsetWidth;
+            container.classList.add("animate-card");
+
+            let badgeColor = "bg-indigo-500/20 text-indigo-300 border-indigo-500/30";
+            if (item.type === "BS") badgeColor = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
+            if (item.type === "PGK") badgeColor = "bg-amber-500/20 text-amber-300 border-amber-500/30";
+            if (item.type === "ESAI") badgeColor = "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
+
+            let optionsHTML = "";
+
+            if (item.type === "PG" || item.type === "BS") {
+                optionsHTML = `<div class="space-y-3 mt-6">`;
+                item.opts.forEach(opt => {
+                    const val = opt.charAt(0); // A, B, C, D atau B, S
+                    const isChecked = userAnswers[item.no] === val;
+                    optionsHTML += `
+                        <label onclick="selectSingle(${item.no}, '${val}')" class="option-label flex items-center gap-3.5 p-4 rounded-2xl border cursor-pointer ${isChecked ? 'bg-indigo-600/25 border-indigo-500 text-white shadow-md' : 'bg-slate-800/60 border-slate-700/80 hover:bg-slate-800 text-slate-300'}">
+                            <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${isChecked ? 'border-indigo-400 bg-indigo-500' : 'border-slate-500'}">
+                                ${isChecked ? '<div class="w-2.5 h-2.5 rounded-full bg-white"></div>' : ''}
+                            </div>
+                            <span class="text-sm md:text-base font-medium">${opt}</span>
+                        </label>
+                    `;
+                });
+                optionsHTML += `</div>`;
+            } 
+            else if (item.type === "PGK") {
+                const selectedArr = userAnswers[item.no] || [];
+                optionsHTML = `<p class="text-xs text-amber-300 mt-2">*Pilih lebih dari satu jawaban yang benar</p><div class="space-y-3 mt-4">`;
+                item.opts.forEach(opt => {
+                    const val = opt.charAt(0);
+                    const isChecked = selectedArr.includes(val);
+                    optionsHTML += `
+                        <label onclick="toggleMulti(${item.no}, '${val}')" class="option-label flex items-center gap-3.5 p-4 rounded-2xl border cursor-pointer ${isChecked ? 'bg-amber-500/20 border-amber-500 text-white shadow-md' : 'bg-slate-800/60 border-slate-700/80 hover:bg-slate-800 text-slate-300'}">
+                            <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 ${isChecked ? 'border-amber-400 bg-amber-500 text-slate-900 font-bold' : 'border-slate-500'}">
+                                ${isChecked ? '✓' : ''}
+                            </div>
+                            <span class="text-sm md:text-base font-medium">${opt}</span>
+                        </label>
+                    `;
+                });
+                optionsHTML += `</div>`;
+            } 
+            else if (item.type === "ESAI") {
+                const currentText = userAnswers[item.no] || "";
+                optionsHTML = `
+                    <div class="mt-6">
+                        <label class="block text-xs text-slate-400 mb-2">Ketik jawaban uraian Anda secara singkat dan jelas:</label>
+                        <textarea oninput="saveEssay(${item.no}, this.value)" rows="5" placeholder="Tulis jawaban Anda di sini..." class="w-full p-4 rounded-2xl bg-slate-800 border border-slate-700 focus:border-emerald-500 outline-none text-white text-sm md:text-base leading-relaxed">${currentText}</textarea>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div>
+                    <div class="flex items-center justify-between gap-2 mb-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold border ${badgeColor}">
+                            Soal No. ${item.no} • ${item.materi}
+                        </span>
+                    </div>
+                    <h3 class="text-base md:text-lg font-semibold text-white leading-relaxed">
+                        ${item.q}
+                    </h3>
+                    ${optionsHTML}
+                </div>
+            `;
+
+            // Update tombol navigasi
+            document.getElementById("btn-prev").disabled = (idx === 0);
+            if (idx === questions.length - 1) {
+                document.getElementById("btn-next").classList.add("hidden");
+                document.getElementById("btn-submit").classList.remove("hidden");
+            } else {
+                document.getElementById("btn-next").classList.remove("hidden");
+                document.getElementById("btn-submit").classList.add("hidden");
+            }
+
+            updateGridHighlight();
+        }
+
+        function selectSingle(no, val) {
+            userAnswers[no] = val;
+            renderQuestion(currentIdx);
+            updateProgress();
+        }
+
+        function toggleMulti(no, val) {
+            if (!userAnswers[no]) userAnswers[no] = [];
+            const idx = userAnswers[no].indexOf(val);
+            if (idx > -1) userAnswers[no].splice(idx, 1);
+            else userAnswers[no].push(val);
+            
+            if (userAnswers[no].length === 0) delete userAnswers[no];
+            userAnswers[no]?.sort();
+            renderQuestion(currentIdx);
+            updateProgress();
+        }
+
+        function saveEssay(no, text) {
+            if (text.trim() === "") delete userAnswers[no];
+            else userAnswers[no] = text;
+            updateProgress();
+        }
+
+        function prevQuestion() { if (currentIdx > 0) renderQuestion(currentIdx - 1); }
+        function nextQuestion() { if (currentIdx < questions.length - 1) renderQuestion(currentIdx + 1); }
+
+        function renderGrid() {
+            const grid = document.getElementById("question-grid");
+            grid.innerHTML = "";
+            questions.forEach((item, idx) => {
+                const btn = document.createElement("button");
+                btn.id = `nav-btn-${idx}`;
+                btn.innerText = item.no;
+                btn.onclick = () => renderQuestion(idx);
+                btn.className = "h-10 rounded-xl font-bold text-xs border transition cursor-pointer flex items-center justify-center bg-slate-800 border-slate-700 text-slate-300";
+                grid.appendChild(btn);
+            });
+        }
+
+        function updateGridHighlight() {
+            questions.forEach((item, idx) => {
+                const btn = document.getElementById(`nav-btn-${idx}`);
+                const isAnswered = userAnswers[item.no] !== undefined;
+                btn.className = "h-10 rounded-xl font-bold text-xs border transition cursor-pointer flex items-center justify-center ";
+                
+                if (idx === currentIdx) {
+                    btn.className += "bg-indigo-600 border-indigo-400 text-white ring-2 ring-indigo-400/50 scale-105";
+                } else if (isAnswered) {
+                    btn.className += "bg-emerald-600/30 border-emerald-500 text-emerald-300";
+                } else {
+                    btn.className += "bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700";
+                }
+            });
+        }
+
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const percent = Math.round((answeredCount / questions.length) * 100);
+            document.getElementById("progress-text").innerText = `${answeredCount} / 50 Terjawab (${percent}%)`;
+            document.getElementById("progress-bar").style.width = `${percent}%`;
+            updateGridHighlight();
+        }
+
+        // 5. HITUNG SKOR & KIRIM KE GOOGLE SPREADSHEET
+        function confirmSubmit() {
+            const answeredCount = Object.keys(userAnswers).length;
+            if (confirm(`Anda telah menjawab ${answeredCount} dari 50 soal.\nYakin ingin mengumpulkan LJK sekarang?`)) {
+                submitExam("Selesai Normal (Diklik Siswa)");
+            }
+        }
+
+        function submitExam(statusReason) {
+            if (isSubmitting) return;
+            isSubmitting = true;
+            isExamActive = false;
+            clearInterval(timerInterval);
+
+            // Hitung skor otomatis (No 1-45)
+            let skorPG = 0;  // 35 soal x 2 poin = 70
+            let skorBS = 0;  // 5 soal x 2 poin = 10
+            let skorPGK = 0; // 5 soal x 2 poin = 10
+            // Total objektif = 90 poin (10 poin sisa untuk koreksi manual Esai guru)
+
+            let esaiList = [];
+            let detailList = [];
+
+            questions.forEach(q => {
+                const uAns = userAnswers[q.no];
+                if (q.type === "PG") {
+                    if (uAns === q.ans) skorPG += 2;
+                    detailList.push(`${q.no}:${uAns || '-'}`);
+                } else if (q.type === "BS") {
+                    if (uAns === q.ans) skorBS += 2;
+                    detailList.push(`${q.no}:${uAns || '-'}`);
+                } else if (q.type === "PGK") {
+                    const userStr = Array.isArray(uAns) ? uAns.join(",") : "";
+                    const keyStr = q.ans.join(",");
+                    if (userStr === keyStr) skorPGK += 2;
+                    detailList.push(`${q.no}:[${userStr || '-'}]`);
+                } else if (q.type === "ESAI") {
+                    esaiList.push(`No.${q.no}: ${uAns || '(Kosong)'}`);
+                }
+            });
+
+            const totalSkorOtomatis = skorPG + skorBS + skorPGK;
+
+            // Tampilkan layar selesai
+            document.getElementById("exam-screen").classList.add("hidden");
+            document.getElementById("warning-modal").classList.add("hidden");
+            document.getElementById("finish-screen").classList.remove("hidden");
+
+            document.getElementById("finish-reason").innerText = statusReason;
+            document.getElementById("res-nama").innerText = studentData.nama;
+            document.getElementById("res-kelas").innerText = `${studentData.kelas} (Absen ${studentData.absen})`;
+            document.getElementById("res-skor").innerText = `${totalSkorOtomatis} / 90 (Belum termasuk Esai)`;
+            document.getElementById("res-pelanggaran").innerText = `${violationCount} Kali`;
+
+            if (document.fullscreenElement) {
+                document.exitFullscreen().catch(() => {});
+            }
+
+            // Kirim data ke Google Spreadsheet
+            const payload = {
+                nama: studentData.nama,
+                kelas: studentData.kelas,
+                absen: studentData.absen,
+                skorPG: skorPG,
+                skorBS: skorBS,
+                skorPGK: skorPGK,
+                totalSkorOtomatis: totalSkorOtomatis,
+                status: statusReason,
+                pelanggaran: violationCount,
+                jawabanEsai: esaiList.join(" | "),
+                detailJawaban: detailList.join(" ")
+            };
+
+            if (GOOGLE_SCRIPT_URL === "https://script.google.com/macros/s/AKfycbxI_rZ2IRExVlUDumKF3ib7TuxeZ0H9lfxRiEtMF5iubT55FjeQDlhXV8BcUv0kZJDGwQ/exec") {
+                document.getElementById("res-sync").innerText = "Mode Offline (URL Script belum diisi)";
+                return;
+            }
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                document.getElementById("res-sync").innerText = "Terkirim ke Spreadsheet ✅";
+            })
+            .catch(() => {
+                document.getElementById("res-sync").innerText = "Gagal sinkron (Periksa internet)";
+            });
+        }
+    </script>
+</body>
+</html>
